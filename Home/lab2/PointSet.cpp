@@ -29,15 +29,14 @@ PointSet::PointSet(const Point points[], int numPoints)
   }
 }
 
-PointSet::PointSet(const PointSet& s)
+PointSet::PointSet(const PointSet& s) : capacity(s.capacity), numPoints(s.numPoints)
 {
   // This cout statement is for learning purpose only, which shows when the constructor will be invoked
   cout << "Initialized by PointSet's copy constructor" << endl;
 
   // TODO #3: add your code here
   this->points = new Point[s.capacity];
-  this->capacity = s.capacity;
-  this->numPoints = s.numPoints;
+
   for (int i = 0; i < numPoints; i++) {
       this->points[i] = s.points[i];
   }
@@ -53,7 +52,7 @@ void PointSet::addPoint(const Point& p)
 {
   // TODO #5: add your code here
   if (this->numPoints >= this->capacity) {
-    cout << "Insufficient array space";
+    cout << "Insufficient array space" << endl;
     return;
   }
   this->points[this->numPoints++] = p;
@@ -64,7 +63,7 @@ void PointSet::removeLastPoint()
   // TODO #6: add your code here
   if (this->numPoints == 0)
   {
-    cout << "No points";
+    cout << "No points" << endl;
     return;
   }
   this->numPoints--;
