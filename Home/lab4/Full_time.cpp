@@ -5,33 +5,40 @@ using namespace std;
 
 // TODO: Complete the constructor of Full_time class. 
 //       Remember to call the constructor of base class, use new to initialize char*position.
-Full_time::Full_time(const char* name, double base_salary, const char* position, int seniority, double bonus)
+Full_time::Full_time(const char* name, double base_salary, const char* position, int seniority, double bonus) : Employee(name, base_salary), seniority(seniority), bonus(bonus)
+{
+    this->position = new char[strlen(position) + 1];
+    strcpy(this->position, position);
+
+}
 
 
 Full_time::~Full_time() {
     cout << "Call destructor of Full_time" << endl;
 // TODO: dynamic memory deallocation
+    delete [] position;
 
 }
 
 // TODO: Complete Full_time::get_position
 string Full_time::get_position() const{
-
+    return position;
 }
 
 // TODO: Complete Full_time::get_seniority
 int Full_time::get_seniority() const{
-    
+    return seniority;
 }
 
 // TODO: Complete Full_time::get_bonus
 double Full_time::get_bonus() const{
-   
+   return bonus;
 }
 
 // TODO: Complete Full_time::get_salary. Salary = base_salary + 0.1 * base_salary * seniority + bonus
 double Full_time::get_salary() const{
-
+    double temp = this->get_base_salary();
+    return temp + 0.1 * temp * seniority + bonus;
 }
 
 void Full_time::print() const{

@@ -17,7 +17,8 @@ int main() {
     t1->print();
 	
     // TODO: Please use dynamic_cast to convert t1 to Contract type and call info() member function
-    
+    Contract *t2 = dynamic_cast<Contract*>(t1);
+    t2->info();
 
     delete p1;
     delete b1;

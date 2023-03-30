@@ -17,10 +17,12 @@ class Full_time : public Employee{
     /* //TODO:complete the member function declaration of Full_time class
       based on the given functions on the web page.
     */
-
-
-
-
-
+        Full_time(const char* name, double base_salary, const char* position, int seniority, double bonus);
+        virtual ~Full_time() override;
+        string get_position() const;
+        int get_seniority() const;
+        double get_bonus() const;
+        virtual double get_salary() const override;
+        virtual void print() const override; 
 };
 #endif
