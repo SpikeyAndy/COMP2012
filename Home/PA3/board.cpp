@@ -13,9 +13,11 @@ Board::Board(const int score[][BOARD_SIZE]) : curPlayer{X}, id {0} {
 bool Board::isFull() const {
     for (int i = 0; i < BOARD_SIZE; ++i) { 
         for (int j = 0; j < BOARD_SIZE; ++j) {
-                return (this->cells[i][j] == EMPTY) ? false : true;
+                if (this->cells[i][j] == EMPTY)
+                        return false;
         }
     }
+    return true;
 }
 
         // Return true if the game has finished (a match is found or board is full).

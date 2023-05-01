@@ -12,6 +12,7 @@ BoardTree::BoardTree(const Board& board) {
 BoardTree::~BoardTree() {
     // TODO: Implement destructor
     delete root;
+    root = nullptr;
 }
 
 // Implement getSubTree function
@@ -70,5 +71,5 @@ BoardOptimalMove BoardTree::getOptimalMove(const unsigned int depth) {
 // Implement getOptimalMoveAlphaBeta function
 BoardOptimalMove BoardTree::getOptimalMoveAlphaBeta(const unsigned int depth, int alpha, int beta) {
     // TODO: Implement getOptimalMoveAlphaBeta function
-    
+
 }
