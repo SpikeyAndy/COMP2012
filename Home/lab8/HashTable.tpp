@@ -4,7 +4,12 @@
   - It also initializes all the other data members using the parameters.
 */
 // TODO #1: --- BEGIN ---
-
+template <typename K, typename V>
+HashTable<K,V>::HashTable(unsigned int table_size, unsigned int(*hash_func)(const K&), CollisionResolutionAlgo algo, unsigned int(*hash_func2)(const K&)) 
+  : algo(algo), table_size(table_size), hash_func(hash_func), hash_func2(hash_func2)
+{
+    table = new Entry<K,V>[table_size];
+}
 // TODO #1: --- END ---
 
 
@@ -13,7 +18,11 @@
    - It deallocates all the dynamically allocated memory to avoid memory leaks.
 */
 // TODO #2: --- BEGIN ---
-
+template <typename K, typename V>
+HashTable<K,V>::~HashTable()
+{
+  delete [] table;
+}
 // TODO #2: --- END ---
 
 
@@ -25,7 +34,25 @@
     according to the current collision resolution algorithm, algo.
 */
 // TODO #3: --- BEGIN ---
+template <typename K, typename V>
+unsigned int HashTable<K,V>::offset(int i, const K& key)
+{
+  int offset = 0;
+  switch(this->algo){
+    case LINEAR: 
+      offset = i;
+      break;
+      
+    case QUADRATIC:
+      offset = i*i;
+      break;
 
+    case DOUBLEHASH:
+      offset = i * hash_func2(key);
+      break;
+  }
+  return offset;
+}
 // TODO #3: --- END ---
 
 
@@ -51,7 +78,12 @@ unsigned int HashTable<K,V>::insert(const K& key, const V& value) {
     cout << "Probe: " << j << ", ";
 
     // TODO #4: --- BEGIN ---
-    
+    if (table[j].status == DELETE || table[j].status == EMPTY) {
+      table[j].key = key;
+      table[j].value = value;
+      table[j].status = ACTIVE;
+      return i;
+    }
     // TODO #4: --- END ---
 
     j = (index + offset(i, key)) % table_size; // Compute the next probe location
@@ -60,6 +92,7 @@ unsigned int HashTable<K,V>::insert(const K& key, const V& value) {
   cerr << "Over the limit" << endl;
   return i;
 }
+
 
 /*
   remove function
@@ -82,7 +115,13 @@ unsigned int HashTable<K,V>::remove(const K& key) {
     cout << "Probe: " << j << ", ";
 
     // TODO #5: --- BEGIN ---     
-   
+    if (table[j].status == EMPTY) {
+      break;
+    }
+    else if (table[j].status == ACTIVE && table[j].key == key) {
+       table[j].status = DELETE; // mark the element as deleted
+      return i; // return the number of probes
+    }
     // TODO #5: --- END --- 
 
     j = (index + offset(i, key)) % table_size; // Compute the next probe location
@@ -112,7 +151,15 @@ unsigned int HashTable<K,V>::find(const K& key, V*& v) {
     cout << "Probe: " << j << ", ";
 
     // TODO #6: --- BEGIN ---
-
+    if (table[j].status == EMPTY || table[j].status == DELETE) 
+    {
+      break;
+    }
+    else if (table[j].status == ACTIVE && table[j].key == key) { // If we find the key, return its value
+      v = &table[j].value;
+      return i;
+    }
+    
     // TODO #6: --- END ---
     
     j = (index + offset(i, key)) % table_size; // Compute the next probe location

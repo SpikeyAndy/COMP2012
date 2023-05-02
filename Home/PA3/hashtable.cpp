@@ -4,7 +4,7 @@ BoardOptimalMove BoardHashTable::getHashedMove(const unsigned long long id, cons
 	int index = id % TABLE_SIZE;
 	while (table[index] != nullptr) {
 		if (table[index]->id == id) {
-			return table[index]->getOptimalMove(depth);
+			return table[index]->optimalMove;
 		}
 		table[index] = table[index]->next;
 	}
@@ -34,6 +34,13 @@ void BoardHashTable::updateTable(const unsigned long long id, const int depth, c
 // Clear all dynamic memory and reset table array to all nullptr.
 
 void BoardHashTable::clearTable() {
-	delete [] table;
-
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        BoardHashNode* current = table[i];
+        while (current != nullptr) {
+            BoardHashNode* next = current->next;
+            delete current;
+            current = next;
+        }
+        table[i] = nullptr;
+    }
 }
