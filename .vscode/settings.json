@@ -65,7 +65,7 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/.dSYM": true,
-        "**/.vscode": true
+        "**/.vscode": false
     },
     "explorerExclude.backup": {}
 }
